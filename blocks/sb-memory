@@ -1,0 +1,29 @@
+#!/bin/sh
+
+while IFS=':k '  read -r KEY VAL _; do
+    case $KEY in
+        MemTotal)
+            MEM_USED=$((MEM_USED + VAL))
+            MEM_FULL=$VAL
+        ;;
+
+        Shmem)
+            MEM_USED=$((MEM_USED + VAL))
+        ;;
+
+        MemFree|Buffers|Cached|SReclaimable)
+            MEM_USED=$((MEM_USED - VAL))
+        ;;
+    esac
+done < /proc/meminfo
+
+MEM_USED=$((MEM_USED / 1024))
+MEM_FULL=$((MEM_FULL / 1024))
+
+printf " ^c#5af78e^ ^d^$(( MEM_USED*100/MEM_FULL ))%%"
+
+case $BLOCK_BUTTON in
+    1) alacritty -e htop -s PERCENT_MEM ;;
+    2) alacritty -e htop ;;
+esac
+

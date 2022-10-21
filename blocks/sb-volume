@@ -1,0 +1,27 @@
+#!/bin/sh
+
+VOLUME=$(pamixer --get-volume)
+[ -z "$VOLUME" ] && exit
+
+case $BLOCK_BUTTON in
+    1) pavucontrol & ;;
+    3) pactl set-sink-mute @DEFAULT_SINK@ toggle ;;
+esac
+
+if [ "$(pamixer --get-mute)" = true ]; then
+    printf "  " 
+    exit
+elif [ "$VOLUME" = 0 ]; then
+    ICON=" "
+elif [ "$VOLUME" -lt 33 ]; then
+	ICON=" "
+elif [ "$VOLUME" -lt 66 ]; then
+	ICON=" "
+else
+	ICON=" "
+fi
+
+[ "$VOLUME" -gt 100 ] && pactl set-sink-volume @DEFAULT_SINK@ 100% && VOLUME=100
+
+printf " ^c#57c7ff^$ICON^d^$VOLUME%%"
+

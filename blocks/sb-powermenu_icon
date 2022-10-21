@@ -1,0 +1,23 @@
+#!/bin/sh
+
+printf " ^c#57c7ff^ ^f10^"
+
+case $BLOCK_BUTTON in
+    1)
+        eval "$(xdotool getmouselocation --shell)"
+        Z=200
+        X=$((X-Z))
+        Y=29
+        OPTIONS="Cancel\n Shutdown\n Reboot\n Sleep\n Hibernate\n Lock"
+        SELECTED=$(echo "$OPTIONS" | dmenu -l 6 -x $X -y $Y -z $Z)
+
+        case $SELECTED in
+            " Shutdown") systemctl poweroff ;;
+            " Reboot") systemctl reboot ;;
+            " Sleep") systemctl suspend ;;
+            " Hibernate") systemctl hibernate ;;
+            " Lock") slock ;;
+            *) exit ;;
+        esac ;;
+esac
+

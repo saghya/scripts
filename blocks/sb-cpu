@@ -1,0 +1,15 @@
+#!/bin/sh
+
+read -r CPU A B C PREVIDLE REST < /proc/stat
+PREVTOTAL=$((A+B+C+PREVIDLE))
+sleep 0.1
+read -r CPU A B C IDLE REST < /proc/stat
+TOTAL=$((A+B+C+IDLE))
+CPU=$((100*( (TOTAL-PREVTOTAL) - (IDLE-PREVIDLE) ) / (TOTAL-PREVTOTAL) ))
+printf " ^c#ff6ac1^ ^d^$CPU%%"
+
+case "$BLOCK_BUTTON" in
+    1) alacritty -e htop -s PERCENT_CPU ;;
+    2) alacritty -e htop ;;
+esac
+

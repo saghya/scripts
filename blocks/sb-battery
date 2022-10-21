@@ -1,0 +1,27 @@
+#!/bin/sh
+
+if [ -d /sys/class/power_supply/BAT0 ]; then
+    read -r BAT < /sys/class/power_supply/BAT0/capacity
+    read -r AC < /sys/class/power_supply/AC/online
+else
+    exit
+fi
+
+if [ "$AC" = 1 ]; then
+    ICON=""
+else
+	if [ "$BAT" -lt 20 ]; then
+		ICON=""
+	elif [ "$BAT" -lt 40 ]; then
+		ICON=""
+	elif [ "$BAT" -lt 60 ]; then
+		ICON=""
+	elif [ "$BAT" -lt 80 ]; then
+        ICON=""
+	else
+		ICON=""
+	fi
+fi
+
+printf " ^c#5af78e^$ICON ^d^$BAT%%"
+

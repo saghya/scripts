@@ -1,0 +1,8 @@
+#!/bin/sh
+
+date '+ ^c#ff6ac1^^d^ %-m-%-d ^c#f3f99d^^d^ %-H:%M'
+
+case "$BLOCK_BUTTON" in
+    1) dunstify -r 5555 "$(cal)" ;;
+esac
+

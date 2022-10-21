@@ -1,0 +1,24 @@
+#!/bin/sh
+
+INTERFACE=$(ip route | awk '/^default via/ {print $5; exit}')
+
+read -r STATE < /sys/class/net/"$INTERFACE"/operstate
+
+if [ "$STATE" = "up" ]; then
+    case "$INTERFACE" in
+        *en*) printf " ^c#ff5c57^" ;;
+        *wl*) printf " ^c#ff5c57^" ;;
+    esac
+fi
+
+case $BLOCK_BUTTON in
+    1)
+        eval "$(xdotool getmouselocation --shell)"
+        Z=400
+        X=$((X-Z))
+        Y=29
+        networkmanager_dmenu -l 20 -x $X -y $Y -z $Z ;;
+    2)
+        dunstify -r 5555 -u 0 "$(nmcli -t -f name connection show --active)" ;;
+esac
+

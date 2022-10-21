@@ -1,0 +1,21 @@
+#!/bin/sh
+
+while getopts 'm:' FLAG; do
+  case ${FLAG} in
+    m) M_FLAG=${OPTARG} ;;
+    *) ;;
+  esac
+done
+
+OPTIONS="Cancel\n Shutdown\n Reboot\n Sleep\n Hibernate\n Lock"
+SELECTED=$(echo "$OPTIONS" | dmenu -m "$M_FLAG" -l 6 -z 200)
+
+case $SELECTED in
+    " Shutdown") systemctl poweroff ;;
+    " Reboot") systemctl reboot ;;
+    " Sleep") systemctl suspend ;;
+    " Hibernate") systemctl hibernate ;;
+    " Lock") slock ;;
+    *) exit ;;
+esac
+
