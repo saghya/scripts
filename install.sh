@@ -24,9 +24,9 @@ packages() {
         man-pages polkit acpid pipewire pipewire-pulse pipewire-alsa pavucontrol pamixer wget
         udiskie alacritty noto-fonts noto-fonts-cjk noto-fonts-extra ttf-font-awesome ttf-jetbrains-mono
         ttf-ubuntu-font-family dunst feh dash zsh zsh-autosuggestions maim neovim picom lxappearance
-        gtk-engine-murrine gnome-themes-extra arc-gtk-theme papirus-icon-theme kvantum qt5ct qt6ct
-        ueberzug ranger pcmanfm zathura zathura-pdf-mupdf mpv exa inetutils ripgrep fd pyright bluez
-        bluez-utils python-pygments networkmanager dnsmasq cups libhandy system-config-printer hplip"
+        gtk-engine-murrine gnome-themes-extra papirus-icon-theme kvantum qt5ct qt6ct ueberzug ranger
+        pcmanfm zathura zathura-pdf-mupdf mpv exa inetutils ripgrep fd pyright bluez bluez-utils
+        python-pygments networkmanager dnsmasq cups libhandy system-config-printer hplip"
     sudo pacman --noconfirm -Syyu
     for PCKG in $PCKGS; do
         sudo pacman --needed --noconfirm -S "$PCKG" || error "Error installing $PCKG"
@@ -42,7 +42,8 @@ packages() {
     fi
 
     AUR_PCKGS="google-chrome breeze-snow-cursor-theme htop-vim ly dashbinsh networkmanager-dmenu-git
-        dmenu-bluetooth kvantum-theme-arc zsh-fast-syntax-highlighting hplip-plugin"
+        dmenu-bluetooth catppuccin-gtk-theme-mocha catppuccin-gtk-theme-macchiato catppuccin-gtk-theme-frappe
+        catppuccin-gtk-theme-latte kvantum-theme-catppuccin-git zsh-fast-syntax-highlighting hplip-plugin"
     for PCKG in $AUR_PCKGS; do
         yay --needed --noconfirm -S "$PCKG" || error "Error installing $PCKG"
     done
@@ -104,9 +105,9 @@ git_packages() {
         wget https://tools.suckless.org/slock/patches/dwmlogoandblurscreen/slock-dwmlogoandblurscreen-1.0.diff; then
         git apply slock-dwmlogoandblurscreen-1.0.diff
         sed -i "s/nogroup/$USER/g" config.def.h 
-        sed -i "s/2d2d2d/#b3c2f2/g" config.def.h
-        sed -i "s/#005577/#69a2ff/g" config.def.h
-        sed -i "s/#CC3333/#eb4034/g" config.def.h
+        sed -i "s/2d2d2d/#B4BEFE/g" config.def.h
+        sed -i "s/#005577/#89B4FA/g" config.def.h
+        sed -i "s/#CC3333/#F38BA8/g" config.def.h
         sed -i '/^\s*XBell/d' slock.c # Remove annoying bell
         make
         sudo make install
@@ -174,11 +175,11 @@ services() {
     # display manager
     sudo systemctl enable ly.service
     printf "%s\n"                                                                                       \
-           "term_reset_cmd = /usr/bin/tput reset; /usr/bin/printf '\%b' '\\e]P0222430\\e]P769a2ff\\ec'" \
+           "term_reset_cmd = /usr/bin/tput reset; /usr/bin/printf '\%b' '\\e]P01E1E2E\\e]P789B4FA\\ec'" \
            "blank_password = true"                                                                      |
     sudo tee /etc/ly/config.ini
     if [ "$(sed "8q;d" /lib/systemd/system/ly.service)" != "ExecStartPre=/usr/bin/printf '%%b' '\e]P0222430\e]P769a2ff\ec'" ]; then
-        sudo sed -i "8i ExecStartPre=/usr/bin/printf '%%b' '\\\e]P0222430\\\e]P769a2ff\\\ec'" /lib/systemd/system/ly.service
+        sudo sed -i "8i ExecStartPre=/usr/bin/printf '%%b' '\\\e]P01E1E2E\\\e]P789B4FA\\\ec'" /lib/systemd/system/ly.service
     fi
 
     # acpi events

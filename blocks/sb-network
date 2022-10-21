@@ -1,13 +1,15 @@
 #!/bin/sh
 
+COLOR=^c#F38BA8^
+
 INTERFACE=$(ip route | awk '/^default via/ {print $5; exit}')
 
 read -r STATE < /sys/class/net/"$INTERFACE"/operstate
 
 if [ "$STATE" = "up" ]; then
     case "$INTERFACE" in
-        *en*) printf " ^c#ff5c57^" ;;
-        *wl*) printf " ^c#ff5c57^" ;;
+        *en*) printf " %s" "$COLOR";;
+        *wl*) printf " %s" "$COLOR";;
     esac
 fi
 

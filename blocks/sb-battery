@@ -1,5 +1,7 @@
 #!/bin/sh
 
+COLOR=^c#A6E3A1^
+
 if [ -d /sys/class/power_supply/BAT0 ]; then
     read -r BAT < /sys/class/power_supply/BAT0/capacity
     read -r AC < /sys/class/power_supply/AC/online
@@ -23,5 +25,5 @@ else
 	fi
 fi
 
-printf " ^c#5af78e^$ICON ^d^$BAT%%"
+printf " $COLOR$ICON ^d^$BAT%%"
 

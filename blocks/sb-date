@@ -1,6 +1,9 @@
 #!/bin/sh
 
-date '+ ^c#ff6ac1^^d^ %-m-%-d ^c#f3f99d^^d^ %-H:%M'
+COLOR1=^c#F5C2E7^
+COLOR2=^c#F9E2AF^
+
+date "+ $COLOR1^d^ %-m-%-d $COLOR2^d^ %-H:%M"
 
 case "$BLOCK_BUTTON" in
     1) dunstify -r 5555 "$(cal)" ;;

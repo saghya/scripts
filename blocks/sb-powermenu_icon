@@ -1,6 +1,8 @@
 #!/bin/sh
 
-printf " ^c#57c7ff^ ^f10^"
+COLOR=^c#94E2D5^
+
+printf " %s ^f10^" "$COLOR"
 
 case $BLOCK_BUTTON in
     1)

@@ -29,6 +29,6 @@ case "$BLOCK_BUTTON" in
         done
         )
 
-        dunstify -r 5555 -u 0 "$WEATHER"
+        dunstify -r 5555 "$WEATHER"
 esac
 

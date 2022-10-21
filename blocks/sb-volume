@@ -1,5 +1,7 @@
 #!/bin/sh
 
+COLOR=^c#89B4FA^
+
 VOLUME=$(pamixer --get-volume)
 [ -z "$VOLUME" ] && exit
 
@@ -23,5 +25,5 @@ fi
 
 [ "$VOLUME" -gt 100 ] && pactl set-sink-volume @DEFAULT_SINK@ 100% && VOLUME=100
 
-printf " ^c#57c7ff^$ICON^d^$VOLUME%%"
+printf " %s$ICON^d^$VOLUME%%" "$COLOR"
 

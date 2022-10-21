@@ -1,8 +1,10 @@
 #!/bin/sh
 
+COLOR=^c#89B4FA^
+
 if lsusb | grep -q "Bluetooth"; then
     if bluetoothctl show | grep -q "Powered: yes"; then
-        printf " ^c#57c7ff^"
+        printf " $COLOR"
     fi
 fi
 
