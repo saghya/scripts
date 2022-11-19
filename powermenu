@@ -8,7 +8,7 @@ while getopts 'm:' FLAG; do
 done
 
 OPTIONS="Cancel\n Shutdown\n Reboot\n Sleep\n Hibernate\n Lock"
-SELECTED=$(echo "$OPTIONS" | dmenu -m "$M_FLAG" -l 6 -z 200)
+SELECTED=$(echo "$OPTIONS" | dmenu -m "$M_FLAG" -l 6 -z 220)
 
 case $SELECTED in
     " Shutdown") systemctl poweroff ;;
