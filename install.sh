@@ -11,7 +11,7 @@ setup() {
     sudo sed -i "s/^#ParallelDownloads = 8$/ParallelDownloads = 5/;s/^#Color$/Color/" /etc/pacman.conf
 
     # Use all cores for compilation.
-    # sudo sed -i "s/-j2/-j$(nproc)/;s/^#MAKEFLAGS/MAKEFLAGS/" /etc/makepkg.conf
+    sudo sed -i "s/-j2/-j$(nproc)/;s/^#MAKEFLAGS/MAKEFLAGS/" /etc/makepkg.conf
 
     # directory for source files
     mkdir -p ~/.local/src
@@ -41,7 +41,7 @@ packages() {
         error "Error installing yay"
     fi
 
-    AUR_PCKGS="google-chrome breeze-snow-cursor-theme htop-vim ly dashbinsh networkmanager-dmenu-git
+    AUR_PCKGS="google-chrome breeze-snow-cursor-theme htop-vim dashbinsh networkmanager-dmenu-git
         dmenu-bluetooth catppuccin-gtk-theme-mocha catppuccin-gtk-theme-macchiato catppuccin-gtk-theme-frappe
         catppuccin-gtk-theme-latte kvantum-theme-catppuccin-git zsh-fast-syntax-highlighting hplip-plugin"
     for PCKG in $AUR_PCKGS; do
@@ -130,6 +130,14 @@ git_packages() {
     else
         error "Error installing grub theme"
     fi
+    
+    # tty theme
+    if git clone https://github.com/catppuccin/tty ~/.local/src/catppuccin/tty; then
+        sudo ~/.local/src/catppuccin/tty/build.sh
+        sudo ~/.local/src/catppuccin/tty/install.sh mocha
+    else
+        error "Error installing tty theme"
+    fi
 }
 
 ## LAPTOP ##
@@ -172,16 +180,6 @@ laptop() {
 }
 
 services() {
-    # display manager
-    sudo systemctl enable ly.service
-    printf "%s\n"                                                                                       \
-           "term_reset_cmd = /usr/bin/tput reset; /usr/bin/printf '\%b' '\\e]P01E1E2E\\e]P789B4FA\\ec'" \
-           "blank_password = true"                                                                      |
-    sudo tee /etc/ly/config.ini
-    if [ "$(sed "8q;d" /lib/systemd/system/ly.service)" != "ExecStartPre=/usr/bin/printf '%%b' '\e]P0222430\e]P769a2ff\ec'" ]; then
-        sudo sed -i "8i ExecStartPre=/usr/bin/printf '%%b' '\\\e]P01E1E2E\\\e]P789B4FA\\\ec'" /lib/systemd/system/ly.service
-    fi
-
     # acpi events
     sudo systemctl enable acpid.service
     sudo touch /etc/acpi/events/jack
