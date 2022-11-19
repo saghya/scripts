@@ -275,6 +275,9 @@ finishing_touches() {
     sudo sed -i '$ d' /usr/share/icons/default/index.theme
     printf "Inherits=Breeze_Snow" | sudo tee -a /usr/share/icons/default/index.theme
 
+    # give the home directory to the user
+    sudo chown -R "$USER" "$HOME"
+
     # errors
     if [ -f ~/.install-errors.log ]; then
         printf "\033[0;31m\tERRORS:\n#######################\n"
