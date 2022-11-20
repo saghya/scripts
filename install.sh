@@ -162,7 +162,7 @@ laptop() {
            "    Driver \"libinput\""                  \
            "    Option \"Tapping\" \"on\""            \
            "    Option \"NaturalScrolling\" \"true\"" \
-           "EndSection\n"                             |
+           "EndSection"                               |
     sudo tee /etc/X11/xorg.conf.d/30-touchpad.conf
     
     # acpi events
