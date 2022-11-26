@@ -42,8 +42,8 @@ packages() {
     fi
 
     AUR_PCKGS="google-chrome breeze-snow-cursor-theme htop-vim dashbinsh networkmanager-dmenu-git
-        dmenu-bluetooth catppuccin-gtk-theme-mocha catppuccin-gtk-theme-macchiato catppuccin-gtk-theme-frappe
-        catppuccin-gtk-theme-latte kvantum-theme-catppuccin-git zsh-fast-syntax-highlighting hplip-plugin"
+        dmenu-bluetooth catppuccin-gtk-theme-mocha catppuccin-gtk-theme-latte kvantum-theme-catppuccin-git
+        zsh-fast-syntax-highlighting hplip-plugin"
     for PCKG in $AUR_PCKGS; do
         yay --needed --noconfirm -S "$PCKG" || error "Error installing $PCKG"
     done
