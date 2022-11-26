@@ -19,7 +19,7 @@ case $BLOCK_BUTTON in
         Z=400
         X=$((X-Z))
         Y=29
-        networkmanager_dmenu -l 20 -x $X -y $Y -z $Z ;;
+        networkmanager_dmenu -l 20 -x $X -y $Y -z $Z >/dev/null 2>&1 ;;
     2)
         dunstify -r 5555 -u 0 "$(nmcli -t -f name connection show --active)" ;;
 esac
