@@ -46,3 +46,6 @@ sed -i "s/#BCC0CC/#45475A/g" ~/.config/dunst/dunstrc
 sed -i "s/Papirus-Light/Papirus-Dark/g" ~/.config/dunst/dunstrc
 killall dunst
 
+# zathura
+sed -i "s/include .*/include .\/catppuccin\/catppuccin-mocha/g" ~/.config/zathura/zathurarc
+
