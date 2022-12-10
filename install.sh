@@ -21,7 +21,7 @@ setup() {
 packages() {
     PCKGS="base-devel clang gdb python ntfs-3g openssh xorg-server xorg-xwininfo xorg-xinit
         xorg-xprop xorg-xrandr xorg-xdpyinfo xclip xdotool xbindkeys xdg-utils xterm man-db
-        man-pages polkit acpid pipewire pipewire-pulse pipewire-alsa pavucontrol pamixer wget
+        man-pages polkit acpid pipewire pipewire-pulse pipewire-alsa pavucontrol pamixer wget xautolock
         udiskie alacritty noto-fonts noto-fonts-cjk noto-fonts-extra ttf-font-awesome ttf-jetbrains-mono
         ttf-ubuntu-font-family dunst feh dash zsh zsh-autosuggestions maim neovim picom lxappearance
         gtk-engine-murrine gnome-themes-extra papirus-icon-theme kvantum qt5ct qt6ct ueberzug ranger
