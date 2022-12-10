@@ -49,3 +49,7 @@ killall dunst
 # zathura
 sed -i "s/include .*/include .\/catppuccin\/catppuccin-mocha/g" ~/.config/zathura/zathurarc
 
+# scripts
+sed -i "s/Papirus-Light/Papirus-Dark/g" ~/.local/scripts/volumeControl.sh
+sed -i "s/Papirus-Light/Papirus-Dark/g" ~/.local/scripts/brightnessControl.sh
+
