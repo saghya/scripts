@@ -197,17 +197,16 @@ services() {
            "[Unit]"                                             \
            "Description=Lock X session using slock for user %i" \
            "Before=sleep.target"                                \
-           "Before=suspend.target"                              \
            ""                                                   \
            "[Service]"                                          \
            "User=%i"                                            \
            "Environment=DISPLAY=:0"                             \
            "ExecStartPre=/usr/bin/xset dpms force suspend"      \
            "ExecStart=/usr/local/bin/slock"                     \
+           "ExecStartPost=/usr/bin/sleep 1"                     \
            ""                                                   \
            "[Install]"                                          \
-           "WantedBy=sleep.target"                              \
-           "WantedBy=suspend.target"                            |
+           "WantedBy=sleep.target"                              |
     sudo tee /etc/systemd/system/slock@.service
     sudo systemctl enable slock@"$USER".service
 
