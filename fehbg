@@ -1,4 +1,4 @@
 #!/bin/sh
 
-feh --no-fehbg --bg-fill --randomize ~/Pictures/Wallpapers/dark/* 
+feh --no-fehbg --bg-fill --randomize ~/Pictures/Wallpapers/* 
 
