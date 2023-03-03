@@ -43,7 +43,7 @@ packages() {
 
     AUR_PCKGS="google-chrome breeze-snow-cursor-theme htop-vim dashbinsh networkmanager-dmenu-git
         dmenu-bluetooth catppuccin-gtk-theme-mocha catppuccin-gtk-theme-latte kvantum-theme-catppuccin-git
-        zsh-fast-syntax-highlighting hplip-plugin"
+        zsh-fast-syntax-highlighting hplip-plugin physlock-issue-git"
     for PCKG in $AUR_PCKGS; do
         yay --needed --noconfirm -S "$PCKG" || error "Error installing $PCKG"
     done
@@ -98,21 +98,6 @@ git_packages() {
         sudo make install
     else
         error "Error installing dmenu"
-    fi
-
-    # slock
-    if git clone https://git.suckless.org/slock ~/.local/src/slock && cd ~/.local/src/slock &&
-        wget https://tools.suckless.org/slock/patches/dwmlogoandblurscreen/slock-dwmlogoandblurscreen-1.0.diff; then
-        git apply slock-dwmlogoandblurscreen-1.0.diff
-        sed -i "s/nogroup/$USER/g" config.def.h 
-        sed -i "s/2d2d2d/#B4BEFE/g" config.def.h
-        sed -i "s/#005577/#89B4FA/g" config.def.h
-        sed -i "s/#CC3333/#F38BA8/g" config.def.h
-        sed -i '/^\s*XBell/d' slock.c # Remove annoying bell
-        make
-        sudo make install
-    else
-        error "Error installing slock"
     fi
 
     # afetch
@@ -191,24 +176,24 @@ services() {
     # bluetooth
     sudo systemctl enable bluetooth.service
 
-    # slock
-    sudo touch /etc/systemd/system/slock@.service
-    printf "%s\n"                                               \
-           "[Unit]"                                             \
-           "Description=Lock X session using slock for user %i" \
-           "Before=sleep.target"                                \
-           ""                                                   \
-           "[Service]"                                          \
-           "User=%i"                                            \
-           "Environment=DISPLAY=:0"                             \
-           "ExecStartPre=/usr/bin/xset dpms force suspend"      \
-           "ExecStart=/usr/local/bin/slock"                     \
-           "ExecStartPost=/usr/bin/sleep 1"                     \
-           ""                                                   \
-           "[Install]"                                          \
-           "WantedBy=sleep.target"                              |
-    sudo tee /etc/systemd/system/slock@.service
-    sudo systemctl enable slock@"$USER".service
+    # session lock
+    sudo touch /etc/systemd/system/physlock@.service
+    printf "%s\n"                                                  \
+           "[Unit]"                                                \
+           "Description=Lock X session using physlock for user %i" \
+           "Before=sleep.target"                                   \
+           ""                                                      \
+           "[Service]"                                             \
+           "User=%i"                                               \
+           "Environment=DISPLAY=:0"                                \
+           "ExecStartPre=/usr/bin/xset dpms force suspend"         \
+           "ExecStart=/usr/bin/physlock"                           \
+           "ExecStartPost=/usr/bin/sleep 1"                        \
+           ""                                                      \
+           "[Install]"                                             \
+           "WantedBy=sleep.target"                                 |
+    sudo tee /etc/systemd/system/physlock@.service
+    sudo systemctl enable physlock@"$USER".service
 
     # network
     sudo touch /etc/NetworkManager/conf.d/dns.conf
