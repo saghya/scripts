@@ -15,7 +15,7 @@ case $SELECTED in
     " Reboot") systemctl reboot ;;
     " Sleep") systemctl suspend ;;
     " Hibernate") systemctl hibernate ;;
-    " Lock") physlock ;;
+    " Lock") xset s activate ;;
     *) exit ;;
 esac
 

@@ -26,7 +26,7 @@ packages() {
         ttf-ubuntu-font-family dunst feh dash zsh zsh-autosuggestions maim neovim picom lxappearance
         gtk-engine-murrine gnome-themes-extra papirus-icon-theme kvantum qt6ct ueberzug ranger
         pcmanfm zathura zathura-pdf-mupdf mpv exa inetutils ripgrep fd pyright bluez bluez-utils
-        python-pygments networkmanager dnsmasq cups libhandy system-config-printer hplip"
+        python-pygments networkmanager dnsmasq cups libhandy system-config-printer hplip xss-lock"
     sudo pacman --noconfirm -Syyu
     for PCKG in $PCKGS; do
         sudo pacman --needed --noconfirm -S "$PCKG" || error "Error installing $PCKG"
@@ -43,7 +43,7 @@ packages() {
 
     AUR_PCKGS="google-chrome breeze-snow-cursor-theme htop-vim dashbinsh networkmanager-dmenu-git
         dmenu-bluetooth catppuccin-gtk-theme-mocha catppuccin-gtk-theme-latte kvantum-theme-catppuccin-git
-        zsh-fast-syntax-highlighting hplip-plugin physlock-issue-git"
+        zsh-fast-syntax-highlighting hplip-plugin xsecurelock-git"
     for PCKG in $AUR_PCKGS; do
         yay --needed --noconfirm -S "$PCKG" || error "Error installing $PCKG"
     done
@@ -175,25 +175,6 @@ services() {
 
     # bluetooth
     sudo systemctl enable bluetooth.service
-
-    # session lock
-    sudo touch /etc/systemd/system/physlock@.service
-    printf "%s\n"                                                  \
-           "[Unit]"                                                \
-           "Description=Lock X session using physlock for user %i" \
-           "Before=sleep.target"                                   \
-           ""                                                      \
-           "[Service]"                                             \
-           "User=%i"                                               \
-           "Environment=DISPLAY=:0"                                \
-           "ExecStartPre=/usr/bin/xset dpms force suspend"         \
-           "ExecStart=/usr/bin/physlock"                           \
-           "ExecStartPost=/usr/bin/sleep 1"                        \
-           ""                                                      \
-           "[Install]"                                             \
-           "WantedBy=sleep.target"                                 |
-    sudo tee /etc/systemd/system/physlock@.service
-    sudo systemctl enable physlock@"$USER".service
 
     # network
     sudo touch /etc/NetworkManager/conf.d/dns.conf
