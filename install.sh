@@ -26,7 +26,7 @@ packages() {
         ttf-ubuntu-font-family dunst feh dash zsh zsh-autosuggestions maim neovim picom lxappearance
         gtk-engine-murrine gnome-themes-extra papirus-icon-theme kvantum qt6ct ueberzug ranger
         pcmanfm zathura zathura-pdf-mupdf mpv exa inetutils ripgrep fd pyright bluez bluez-utils
-        python-pygments networkmanager dnsmasq cups libhandy system-config-printer hplip xss-lock
+        python-pygments networkmanager dnsmasq cups libhandy system-config-printer hplip xautolock
         bash-language-server"
     sudo pacman --noconfirm -Syyu
     for PCKG in $PCKGS; do
