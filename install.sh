@@ -71,21 +71,32 @@ git_packages() {
     # dwmblocks-async
     if git clone https://github.com/UtkarshVerma/dwmblocks-async ~/.local/src/dwmblocks-async; then
         cd ~/.local/src/dwmblocks-async &&
-        printf "%s\n"                                          \
-               "#define CMDLENGTH 50"                          \
-               "#define DELIMITER \"^d^ |\""                   \
-               "#define CLICKABLE_BLOCKS"                      \
-               ""                                              \
-               "const Block blocks[] = {                     " \
-               "	BLOCK(\"sb-volume\",            1,    1)," \
-               "	BLOCK(\"sb-memory\",            5,    2)," \
-               "	BLOCK(\"sb-cpu\",               5,    3)," \
-               "	BLOCK(\"sb-battery\",          30,    4)," \
-               "	BLOCK(\"sb-network\",          15,    5)," \
-               "	BLOCK(\"sb-bluetooth\",        15,    6)," \
-               "	BLOCK(\"sb-date\",             10,    7)," \
-               "	BLOCK(\"sb-powermenu_icon\",    0,    8)," \
-               "};" > config.h
+        printf "%s\n"                                     \
+               "#pragma once"                             \
+               ""                                         \
+               "#define CLICKABLE_BLOCKS  1"              \
+               "#define CMDLENGTH         50"             \
+               "#define DELIMITER         \"^d^ |\""      \
+               "#define LEADING_DELIMITER 0" > config.h
+
+        printf "%s\n"                                     \
+               "#include \"config.h\""                    \
+               ""                                         \
+               "#include \"block.h\""                     \
+               "#include \"util.h\""                      \
+               ""                                         \
+               "Block blocks[] = {"                       \
+               "	{\"sb-volume\",            1,    1}," \
+               "	{\"sb-memory\",            5,    2}," \
+               "	{\"sb-cpu\",               5,    3}," \
+               "	{\"sb-battery\",          30,    4}," \
+               "	{\"sb-network\",          15,    5}," \
+               "	{\"sb-bluetooth\",        15,    6}," \
+               "	{\"sb-date\",             10,    7}," \
+               "	{\"sb-powermenu_icon\",    0,    8}," \
+               "};"                                       \
+               ""                                         \
+               "const unsigned short blockCount = LEN(blocks);" > config.c
         make
         sudo make install
     else
