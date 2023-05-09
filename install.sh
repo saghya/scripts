@@ -26,8 +26,8 @@ packages() {
         ttf-ubuntu-font-family dunst feh dash zsh zsh-autosuggestions maim neovim picom lxappearance
         gtk-engine-murrine gnome-themes-extra papirus-icon-theme kvantum qt6ct ueberzug ranger
         pcmanfm zathura zathura-pdf-mupdf mpv exa inetutils ripgrep fd pyright bluez bluez-utils
-        python-pygments networkmanager dnsmasq cups libhandy system-config-printer hplip xautolock
-        xss-lock bash-language-server"
+        python-pygments networkmanager dnsmasq cups libhandy system-config-printer hplip xss-lock
+        bash-language-server"
     sudo pacman --noconfirm -Syyu
     for PCKG in $PCKGS; do
         sudo pacman --needed --noconfirm -S "$PCKG" || error "Error installing $PCKG"
@@ -44,7 +44,7 @@ packages() {
 
     AUR_PCKGS="google-chrome breeze-snow-cursor-theme htop-vim dashbinsh networkmanager-dmenu-git
         dmenu-bluetooth catppuccin-gtk-theme-mocha catppuccin-gtk-theme-latte kvantum-theme-catppuccin-git
-        zsh-fast-syntax-highlighting hplip-plugin xsecurelock-git"
+        zsh-fast-syntax-highlighting hplip-plugin xsecurelock-git xidlehook"
     for PCKG in $AUR_PCKGS; do
         yay --needed --noconfirm -S "$PCKG" || error "Error installing $PCKG"
     done
