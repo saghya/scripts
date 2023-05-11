@@ -53,3 +53,18 @@ sed -i "s/include .*/include .\/catppuccin\/catppuccin-latte/g" ~/.config/zathur
 sed -i "s/Papirus-Dark/Papirus-Light/g" ~/.local/scripts/volumeControl.sh
 sed -i "s/Papirus-Dark/Papirus-Light/g" ~/.local/scripts/brightnessControl.sh
 
+# Xresources
+sed -i "s/#1E1E2E/#EFF1F5/g" ~/.config/X11/Xresources
+sed -i "s/#CDD6F4/#4C4F69/g" ~/.config/X11/Xresources
+sed -i "s/#45475A/#5C5F77/g" ~/.config/X11/Xresources
+sed -i "s/#585B70/#6C6F85/g" ~/.config/X11/Xresources
+sed -i "s/#F38BA8/#D20F39/g" ~/.config/X11/Xresources
+sed -i "s/#A6E3A1/#40A02B/g" ~/.config/X11/Xresources
+sed -i "s/#F9E2AF/#DF8E1D/g" ~/.config/X11/Xresources
+sed -i "s/#89B4FA/#1E66F5/g" ~/.config/X11/Xresources
+sed -i "s/#F5C2E7/#EA76CB/g" ~/.config/X11/Xresources
+sed -i "s/#94E2D5/#179299/g" ~/.config/X11/Xresources
+sed -i "s/#BAC2DE/#ACB0BE/g" ~/.config/X11/Xresources
+sed -i "s/#A6ADC8/#BCC0CC/g" ~/.config/X11/Xresources
+xrdb ~/.config/X11/Xresources
+
