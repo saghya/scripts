@@ -87,16 +87,15 @@ git_packages() {
                ""                                         \
                "Block blocks[] = {"                       \
                "	{\"sb-volume\",            1,    1}," \
-               "	{\"sb-memory\",            5,    2}," \
-               "	{\"sb-cpu\",               5,    3}," \
                "	{\"sb-battery\",          30,    4}," \
                "	{\"sb-network\",          15,    5}," \
                "	{\"sb-bluetooth\",        15,    6}," \
                "	{\"sb-date\",             10,    7}," \
-               "	{\"sb-powermenu_icon\",    0,    8}," \
                "};"                                       \
                ""                                         \
                "const unsigned short blockCount = LEN(blocks);" > config.c
+        # remove trimming (needed for sb scripts)
+        sed -i "s/trimUTF8(buffer, LEN(buffer));//g" ~/.local/src/dwmblocks-async/src/block.c
         make
         sudo make install
     else

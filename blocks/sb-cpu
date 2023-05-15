@@ -1,14 +1,12 @@
 #!/bin/sh
 
-COLOR=^c#F5C2E7^
-
 read -r CPU A B C PREVIDLE REST < /proc/stat
 PREVTOTAL=$((A+B+C+PREVIDLE))
 sleep 0.1
 read -r CPU A B C IDLE REST < /proc/stat
 TOTAL=$((A+B+C+IDLE))
 CPU=$((100*( (TOTAL-PREVTOTAL) - (IDLE-PREVIDLE) ) / (TOTAL-PREVTOTAL) ))
-printf " $COLOR ^d^$CPU%%"
+printf " $CPU%% "
 
 case "$BLOCK_BUTTON" in
     1) alacritty -e htop -s PERCENT_CPU ;;

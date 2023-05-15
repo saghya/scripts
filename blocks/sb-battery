@@ -1,7 +1,5 @@
 #!/bin/sh
 
-COLOR=^c#A6E3A1^
-
 if [ -d /sys/class/power_supply/BAT0 ]; then
     read -r BAT < /sys/class/power_supply/BAT0/capacity
     read -r AC < /sys/class/power_supply/AC/online
@@ -25,5 +23,9 @@ else
 	fi
 fi
 
-printf " $COLOR$ICON ^d^$BAT%%"
+printf "%s " " $ICON"
+
+case $BLOCK_BUTTON in
+    2) dunstify -r 5555 -u 0 -t 1000 "Battery at $BAT%" ;;
+esac
 
