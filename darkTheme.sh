@@ -1,9 +1,9 @@
 #!/bin/sh
 
 # dwm
-sed -i "s/#EFF1F5/#1E1E2E/g" ~/.local/src/dwm/config.def.h
+sed -i "s/#EFF1F5/#0E0E1E/g" ~/.local/src/dwm/config.def.h
 sed -i "s/#BCC0CC/#45475A/g" ~/.local/src/dwm/config.def.h
-sed -i "s/#4C4F69/#CDD6F4/g" ~/.local/src/dwm/config.def.h
+sed -i "s/#4C4F69/#EDF6FF/g" ~/.local/src/dwm/config.def.h
 sed -i "s/#7287FD/#B4BEFE/g" ~/.local/src/dwm/config.def.h
 cd ~/.local/src/dwm/ && sudo make clean install && killall dwm
 
@@ -32,14 +32,14 @@ sed -i "s/~\/.config\/alacritty\/.*/~\/.config\/alacritty\/catppuccin\/catppucci
 sed -i "s/local colorscheme =.*/local colorscheme = \"catppuccin-mocha\"/g" ~/.config/nvim/lua/user/colorscheme.lua
 
 # dmenu
-sed -i "s/#EFF1F5/#1E1E2E/g" ~/.local/src/dmenu/config.def.h
-sed -i "s/#4C4F69/#CDD6F4/g" ~/.local/src/dmenu/config.def.h
+sed -i "s/#EFF1F5/#0E0E1E/g" ~/.local/src/dmenu/config.def.h
+sed -i "s/#4C4F69/#EDF6FF/g" ~/.local/src/dmenu/config.def.h
 sed -i "s/#7287FD/#B4BEFE/g" ~/.local/src/dmenu/config.def.h
 cd ~/.local/src/dmenu/ && sudo make clean install && killall dmenu
 
 # dunst
-sed -i "s/#EFF1F5/#1E1E2E/g" ~/.config/dunst/dunstrc
-sed -i "s/#4C4F69/#CDD6F4/g" ~/.config/dunst/dunstrc
+sed -i "s/#EFF1F5/#0E0E1E/g" ~/.config/dunst/dunstrc
+sed -i "s/#4C4F69/#EDF6FF/g" ~/.config/dunst/dunstrc
 sed -i "s/#7287FD/#B4BEFE/g" ~/.config/dunst/dunstrc
 sed -i "s/#D20F39/#F38BA8/g" ~/.config/dunst/dunstrc
 sed -i "s/#BCC0CC/#45475A/g" ~/.config/dunst/dunstrc
