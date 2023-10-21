@@ -17,9 +17,9 @@ sed -i "s/#179299/#94E2D5/g" ~/.local/scripts/blocks/*
 killall dwmblocks && dwmblocks &
 
 # gtk
-sed -i "s/gtk-theme-name=.*/gtk-theme-name=\"Catppuccin-Mocha-Standard-Blue-dark\"/g" ~/.gtkrc-2.0
+sed -i "s/gtk-theme-name=.*/gtk-theme-name=\"Catppuccin-Mocha-Standard-Blue-Dark\"/g" ~/.gtkrc-2.0
 sed -i "s/gtk-icon-theme-name=.*/gtk-icon-theme-name=\"Papirus-Dark\"/g" ~/.gtkrc-2.0
-sed -i "s/gtk-theme-name=.*/gtk-theme-name=Catppuccin-Mocha-Standard-Blue-dark/g" ~/.config/gtk-3.0/settings.ini
+sed -i "s/gtk-theme-name=.*/gtk-theme-name=Catppuccin-Mocha-Standard-Blue-Dark/g" ~/.config/gtk-3.0/settings.ini
 sed -i "s/gtk-icon-theme-name=.*/gtk-icon-theme-name=Papirus-Dark/g" ~/.config/gtk-3.0/settings.ini
 
 # qt
