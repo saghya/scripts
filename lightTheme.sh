@@ -26,7 +26,7 @@ sed -i "s/gtk-icon-theme-name=.*/gtk-icon-theme-name=Papirus-Light/g" ~/.config/
 sed -i "s/theme=.*/theme=Catppuccin-Latte-Lavender/g" ~/.config/Kvantum/kvantum.kvconfig
 
 # alacritty
-sed -i "s/~\/.config\/alacritty\/.*/~\/.config\/alacritty\/catppuccin\/catppuccin-latte.yml/g" ~/.config/alacritty/alacritty.yml
+sed -i "s/import = .*/import = [\"~\/.config\/alacritty\/catppuccin\/catppuccin-latte.toml\"]/g" ~/.config/alacritty/alacritty.toml
 
 # neovim
 sed -i "s/local colorscheme =.*/local colorscheme = \"catppuccin-latte\"/g" ~/.config/nvim/lua/user/colorscheme.lua
