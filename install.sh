@@ -154,10 +154,11 @@ laptop() {
     sudo touch /etc/X11/xorg.conf.d/30-touchpad.conf
     printf "%s\n"                                     \
            "Section \"InputClass\""                   \
-           "    Identifier \"devname\""               \
+           "    Identifier \"mytouchpad\""            \
            "    Driver \"libinput\""                  \
-           "    Option \"Tapping\" \"on\""            \
+           "    MatchIsTouchpad \"on\""               \
            "    Option \"NaturalScrolling\" \"true\"" \
+           "    Option \"Tapping\" \"true\""          \
            "EndSection"                               |
     sudo tee /etc/X11/xorg.conf.d/30-touchpad.conf
     
