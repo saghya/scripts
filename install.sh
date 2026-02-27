@@ -71,31 +71,25 @@ git_packages() {
     # dwmblocks-async
     if git clone https://github.com/UtkarshVerma/dwmblocks-async ~/.local/src/dwmblocks-async; then
         cd ~/.local/src/dwmblocks-async &&
-        printf "%s\n"                                     \
-               "#pragma once"                             \
-               ""                                         \
-               "#define CLICKABLE_BLOCKS  1"              \
-               "#define CMDLENGTH         50"             \
-               "#define DELIMITER         \"^d^ |\""      \
-               "#define LEADING_DELIMITER 0" > config.h
-
-        printf "%s\n"                                     \
-               "#include \"config.h\""                    \
-               ""                                         \
-               "#include \"block.h\""                     \
-               "#include \"util.h\""                      \
-               ""                                         \
-               "Block blocks[] = {"                       \
-               "	{\"sb-volume\",            1,    1}," \
-               "	{\"sb-battery\",          30,    4}," \
-               "	{\"sb-network\",          15,    5}," \
-               "	{\"sb-bluetooth\",        15,    6}," \
-               "	{\"sb-date\",             10,    7}," \
-               "};"                                       \
-               ""                                         \
-               "const unsigned short blockCount = LEN(blocks);" > config.c
-        # remove trimming (needed for sb scripts)
-        sed -i "s/trimUTF8(buffer, LEN(buffer));//g" ~/.local/src/dwmblocks-async/src/block.c
+        printf "%s\n"                                              \
+               "#ifndef CONFIG_H"                                  \
+               "#define CONFIG_H"                                  \
+               ""                                                  \
+               "#define DELIMITER              \"|\""              \
+               "#define MAX_BLOCK_OUTPUT_LENGTH 50"                \
+               "#define CLICKABLE_BLOCKS         1"                \
+               "#define LEADING_DELIMITER        0"                \
+               "#define TRAILING_DELIMITER       0"                \
+               ""                                                  \
+               "#define BLOCKS(X) \\"                              \
+               "	X(\"\", \"sb-volume\",            1,    1) \\" \
+               "	X(\"\", \"sb-battery\",          30,    4) \\" \
+               "	X(\"\", \"sb-network\",          15,    5) \\" \
+               "	X(\"\", \"sb-bluetooth\",        15,    6) \\" \
+               "	X(\"\", \"sb-date\",             10,    7) \\" \
+               "	X(\"\", \"sb-powermenu_icon\",   10,    8) \\" \
+               ""                                                  \
+               "#endif // CONFIG_H" > config.h
         make
         sudo make install
     else
