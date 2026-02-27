@@ -23,7 +23,7 @@ else
 	fi
 fi
 
-printf "%s " " $ICON"
+printf "%s " " $ICON" "$BAT%"
 
 case $BLOCK_BUTTON in
     2) dunstify -r 5555 -u 0 -t 1000 "Battery at $BAT%" ;;

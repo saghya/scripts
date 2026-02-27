@@ -1,6 +1,6 @@
 #!/bin/sh
 
-printf " %s " "$COLOR"
+printf " %s  " "$COLOR"
 
 case $BLOCK_BUTTON in
     1)
