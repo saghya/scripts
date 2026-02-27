@@ -138,7 +138,7 @@ git_packages() {
 
 ## LAPTOP ##
 laptop() {
-    L_PCKGS="xorg-xbacklight tlp tlp-rdw tlpui batsignal libinput-gestures"
+    L_PCKGS="brightnessctl tlp tlp-rdw tlpui batsignal libinput-gestures"
     for PCKG in $L_PCKGS; do
         sudo yay --needed --noconfirm -S "$PCKG" || error "Error installing $PCKG"
     done

@@ -1,16 +1,40 @@
 #!/bin/sh
 
-BRIGHTNESS=$(xbacklight -get | cut -d '.' -f 1)
+#BRIGHTNESS=$(xbacklight -get | cut -d '.' -f 1)
+#
+#case $1 in
+#    up) BRIGHTNESS=$((BRIGHTNESS + 5)) ;;
+#    down) BRIGHTNESS=$((BRIGHTNESS - 5)) ;;
+#esac
+#
+#[ "$BRIGHTNESS" -gt 100 ] && BRIGHTNESS=100
+#[ "$BRIGHTNESS" -lt 5 ] && BRIGHTNESS=5
+#
+#xbacklight -set $BRIGHTNESS -time 0
+#
+#dunstify -r 5555 -t 1000 -h int:value:$BRIGHTNESS "Brightness: $BRIGHTNESS%" --icon=/usr/share/icons/Papirus-Dark/16x16/actions/brightnesssettings.svg
 
-case $1 in
-    up) BRIGHTNESS=$((BRIGHTNESS + 5)) ;;
-    down) BRIGHTNESS=$((BRIGHTNESS - 5)) ;;
+
+STEP=5
+MIN=5
+MAX=100
+
+# Get current brightness percentage
+BRIGHTNESS=$(brightnessctl -m | cut -d, -f4 | tr -d '%')
+
+case "$1" in
+    up)   BRIGHTNESS=$((BRIGHTNESS + STEP)) ;;
+    down) BRIGHTNESS=$((BRIGHTNESS - STEP)) ;;
 esac
 
-[ "$BRIGHTNESS" -gt 100 ] && BRIGHTNESS=100
-[ "$BRIGHTNESS" -lt 5 ] && BRIGHTNESS=5
+# Clamp values
+[ "$BRIGHTNESS" -gt "$MAX" ] && BRIGHTNESS=$MAX
+[ "$BRIGHTNESS" -lt "$MIN" ] && BRIGHTNESS=$MIN
 
-xbacklight -set $BRIGHTNESS -time 0
+# Set brightness
+brightnessctl set "$BRIGHTNESS"% >/dev/null
 
-dunstify -r 5555 -t 1000 -h int:value:$BRIGHTNESS "Brightness: $BRIGHTNESS%" --icon=/usr/share/icons/Papirus-Dark/16x16/actions/brightnesssettings.svg
-
+# Notify
+dunstify -r 5555 -t 1000 -h int:value:"$BRIGHTNESS" \
+"Brightness: $BRIGHTNESS%" \
+--icon=/usr/share/icons/Papirus-Dark/16x16/actions/brightnesssettings.svg
