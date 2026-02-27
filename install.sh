@@ -22,12 +22,12 @@ packages() {
     PCKGS="base-devel clang gdb python ntfs-3g openssh xorg-server xorg-xwininfo xorg-xinit
         xorg-xprop xorg-xrandr xorg-xdpyinfo xclip xdotool xbindkeys xdg-utils xterm man-db
         man-pages polkit acpid pipewire pipewire-pulse pipewire-alsa pavucontrol pamixer wget
-        udiskie alacritty noto-fonts noto-fonts-cjk noto-fonts-extra ttf-font-awesome ttf-jetbrains-mono
-        ttf-ubuntu-font-family dunst feh dash zsh zsh-autosuggestions maim neovim picom lxappearance
-        gtk-engine-murrine gnome-themes-extra papirus-icon-theme kvantum qt6ct ueberzug ranger
-        pcmanfm zathura zathura-pdf-mupdf mpv eza inetutils ripgrep fd pyright bluez bluez-utils
-        python-pygments networkmanager dnsmasq cups libhandy system-config-printer hplip xss-lock
-        bash-language-server bear tree-sitter-cli"
+        udiskie alacritty noto-fonts noto-fonts-cjk noto-fonts-extra noto-fonts-emoji ttf-font-awesome
+        ttf-jetbrains-mono ttf-ubuntu-font-family dunst feh dash zsh zsh-autosuggestions maim neovim
+        picom lxappearance gtk-engine-murrine gnome-themes-extra papirus-icon-theme kvantum qt6ct
+        ueberzug ranger pcmanfm zathura zathura-pdf-mupdf mpv eza inetutils ripgrep fd pyright bluez
+        bluez-utils python-pygments networkmanager dnsmasq cups libhandy system-config-printer hplip
+        xss-lock bash-language-server bear tree-sitter-cli"
     sudo pacman --noconfirm -Syyu
     for PCKG in $PCKGS; do
         sudo pacman --needed --noconfirm -S "$PCKG" || error "Error installing $PCKG"
