@@ -22,7 +22,7 @@ case "$CHOICE" in
     notify-send -t 1200 "VPN" "Disconnected ($VPN_NAME)"
     ;;
   "Status")
-    STATUS="$(systemctl is-active wg-quick@VPN_NAME)"
+    STATUS="$(systemctl is-active wg-quick@$VPN_NAME)"
     notify-send -t 1200 "VPN Status" "$STATUS"
     ;;
 esac
