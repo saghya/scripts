@@ -1,4 +1,36 @@
 #!/bin/sh
+#
+# ------------------------------------------------------------
+# WireGuard dmenu controller (wg-quick via systemd)
+# ------------------------------------------------------------
+#
+# REQUIREMENTS:
+#   wireguard-tools, systemd, dmenu, notify-send
+#
+# 1) WireGuard config
+#   Place your config at:
+#       /etc/wireguard/<vpn-name>.conf
+#
+#   Set permissions:
+#       sudo chmod 600 /etc/wireguard/<vpn-name>.conf
+#
+# 2) Passwordless control (sudoers, required for dmenu)
+#       sudo visudo -f /etc/sudoers.d/wireguard
+#
+#   Add:
+#       <username> ALL=(ALL) NOPASSWD: /usr/bin/systemctl start wg-quick@<vpn-name>
+#       <username> ALL=(ALL) NOPASSWD: /usr/bin/systemctl stop wg-quick@<vpn-name>
+#
+#   Then:
+#       sudo chmod 0440 /etc/sudoers.d/wireguard
+#
+#   Verify with:
+#       sudo -l
+#
+# 3) Set in this script:
+#       VPN_NAME="<vpn-name>"
+
+# ------------------------------------------------------------
 
 while getopts 'm:' FLAG; do
   case ${FLAG} in
