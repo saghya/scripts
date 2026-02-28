@@ -41,6 +41,11 @@ done
 
 VPN_NAME=""
 
+if [ -z "$VPN_NAME" ]; then
+    notify-send -t 5000 "VPN Error" "VPN_NAME is not set.\nSet VPN_NAME variable in the script."
+    exit 1
+fi
+
 CHOICE=$(printf "Connect\nDisconnect\nStatus" \
   | dmenu -m "$M_FLAG" -l 4 -i -z 200)
 
