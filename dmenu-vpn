@@ -1,0 +1,29 @@
+#!/bin/sh
+
+while getopts 'm:' FLAG; do
+  case ${FLAG} in
+    m) M_FLAG=${OPTARG} ;;
+    *) ;;
+  esac
+done
+
+VPN_NAME=""
+
+CHOICE=$(printf "Connect\nDisconnect\nStatus" \
+  | dmenu -m "$M_FLAG" -l 4 -i -z 200)
+
+case "$CHOICE" in
+  "Connect")
+    sudo systemctl start wg-quick@$VPN_NAME &&
+    notify-send -t 1200 "VPN" "Connected ($VPN_NAME)"
+    ;;
+  "Disconnect")
+    sudo systemctl stop wg-quick@$VPN_NAME &&
+    notify-send -t 1200 "VPN" "Disconnected ($VPN_NAME)"
+    ;;
+  "Status")
+    STATUS="$(systemctl is-active wg-quick@VPN_NAME)"
+    notify-send -t 1200 "VPN Status" "$STATUS"
+    ;;
+esac
+
