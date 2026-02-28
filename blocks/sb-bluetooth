@@ -2,7 +2,7 @@
 
 if lsusb | grep -q "Bluetooth"; then
     if bluetoothctl show | grep -q "Powered: yes"; then
-        printf " "
+        printf "  "
     fi
 fi
 
