@@ -7,14 +7,26 @@ if [ -d /etc/X11/xinit/xinitrc.d ] ; then
     unset f
 fi
 
-. "$HOME"/.config/X11/xprofile
+xrdb -merge "$HOME/.config/X11/Xresources" &
+setxkbmap -layout hu -option caps:escape &
+xbindkeys -f "$HOME/.config/X11/xbindkeysrc" &
+xset r rate 250 30 s 300 20 &
 
-dwmblocks &
+xss-lock -n /usr/lib/xsecurelock/dimmer -l -- xsecurelock &
+xidlehook --detect-sleep --not-when-fullscreen --not-when-audio \
+    --timer 600 "systemctl suspend-then-hibernate" '' &
+feh --no-fehbg --bg-fill "$HOME/Pictures/Wallpapers/21.jpg" &
 
-while true; do
-    # Log stderror to a file 
-    # dwm 2> ~/.dwm.log
-    # No error logging
-    dwm >/dev/null 2>&1
+autostart="dwmblocks picom dunst udiskie"
+
+read -r CHASSIS_TYPE < /sys/class/dmi/id/chassis_type
+if [ "$CHASSIS_TYPE" = 9 ] || [ "$CHASSIS_TYPE" = 10 ]; then
+    autostart="$autostart batsignal libinput-gestures"
+fi
+
+for program in $autostart; do
+  "$program" &
 done
+
+exec dwm
 
