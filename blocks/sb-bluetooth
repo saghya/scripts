@@ -10,7 +10,8 @@ case $BLOCK_BUTTON in
         Z=250
         X=$((X-Z))
         Y=29
-        dmenu-bluetooth -x $X -y $Y -z $Z >/dev/null ;;
+        dmenu-bluetooth -x $X -y $Y -z $Z >/dev/null
+        ;;
     2)
         info="$(bluetoothctl info 2>/dev/null)"
         
