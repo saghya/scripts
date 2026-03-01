@@ -1,13 +1,19 @@
 #!/bin/sh
 
-if [ -d /sys/class/power_supply/BAT0 ]; then
-    read -r BAT < /sys/class/power_supply/BAT0/capacity
-    read -r AC < /sys/class/power_supply/AC/online
-else
-    exit
+# pick first battery
+BATDIR="$(ls -d /sys/class/power_supply/BAT* | head -n1)"
+[ -n "$BATDIR" ] || exit 0
+
+read -r BAT < "$BATDIR/capacity"
+
+# pick first AC adapter (mains) if present
+ACONLINE=0
+ACDIR="$(grep -l '^Mains$' /sys/class/power_supply/*/type | sed 's#/type$##' | head -n1)"
+if [ -n "$ACDIR" ] && [ -r "$ACDIR/online" ]; then
+    read -r ACONLINE < "$ACDIR/online"
 fi
 
-if [ "$AC" = 1 ]; then
+if [ "$ACONLINE" = 1 ]; then
     ICON=""
 else
 	if [ "$BAT" -lt 20 ]; then
@@ -23,9 +29,12 @@ else
 	fi
 fi
 
-printf "%s " " $ICON" "$BAT%"
+printf " %s %s " "$ICON" "$BAT%"
 
 case $BLOCK_BUTTON in
-    2) dunstify -r 5555 -u 0 -t 1000 "Battery at $BAT%" ;;
+    2)
+        dunstify -r 5555 -u 0 -t 1000 "Battery at $BAT%"
+        pkill -RTMIN+4 dwmblocks
+        ;;
 esac
 
