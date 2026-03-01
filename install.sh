@@ -25,9 +25,9 @@ packages() {
         udiskie alacritty noto-fonts noto-fonts-cjk noto-fonts-extra noto-fonts-emoji ttf-font-awesome
         ttf-jetbrains-mono ttf-ubuntu-font-family dunst feh dash zsh zsh-autosuggestions maim neovim
         picom lxappearance gtk-engine-murrine gnome-themes-extra papirus-icon-theme kvantum qt6ct
-        ueberzug ranger pcmanfm zathura zathura-pdf-mupdf mpv eza inetutils ripgrep fd pyright bluez
+        ueberzugpp ranger pcmanfm zathura zathura-pdf-mupdf mpv eza inetutils ripgrep fd pyright bluez
         bluez-utils python-pygments networkmanager dnsmasq cups libhandy system-config-printer hplip
-        xss-lock bash-language-server bear tree-sitter-cli"
+        xss-lock bash-language-server bear tree-sitter-cli ly unzip wireguard-tools"
     sudo pacman --noconfirm -Syyu
     for PCKG in $PCKGS; do
         sudo pacman --needed --noconfirm -S "$PCKG" || error "Error installing $PCKG"
@@ -113,21 +113,6 @@ git_packages() {
     else
         error "Error installing afetch"
     fi
-
-    # grub-theme
-    if git clone https://github.com/vinceliuice/grub2-themes ~/.local/src/grub2-themes; then
-        sudo ~/.local/src/grub2-themes/install.sh -b -t tela
-    else
-        error "Error installing grub theme"
-    fi
-    
-    # tty theme
-    if git clone https://github.com/catppuccin/tty ~/.local/src/catppuccin/tty; then
-        sudo ~/.local/src/catppuccin/tty/build.sh
-        sudo ~/.local/src/catppuccin/tty/install.sh mocha
-    else
-        error "Error installing tty theme"
-    fi
 }
 
 ## LAPTOP ##
@@ -201,6 +186,10 @@ services() {
     # cups
     sudo systemctl enable cups.socket
     sudo usermod -a -G lp "$USER"
+
+    # display manager
+    sudo systemctl enable ly@tty2.service
+    sudo systemctl disable getty@tty2.service
 }
 
 finishing_touches() {
@@ -245,6 +234,15 @@ finishing_touches() {
     # set cursor theme
     sudo sed -i '$ d' /usr/share/icons/default/index.theme
     printf "Inherits=Breeze_Snow" | sudo tee -a /usr/share/icons/default/index.theme
+
+    # set tty theme
+    sudo sed -i '/^GRUB_CMDLINE_LINUX="/ s/"$/ vt.default_red=30,243,166,249,137,245,148,186,88,243,166,249,137,245,148,166 vt.default_grn=30,139,227,226,180,194,226,194,91,139,227,226,180,194,226,173 vt.default_blu=46,168,161,175,250,231,213,222,112,168,161,175,250,231,213,200"/' /etc/default/grub
+
+    # set grub timeout to 0
+    sudo sed -i -E 's/^#?\s*GRUB_TIMEOUT=.*/GRUB_TIMEOUT=0/' /etc/default/grub
+
+    # regenerate grub
+    sudo grub-mkconfig -o /boot/grub/grub.cfg
 
     # give the home directory to the user
     sudo chown -R "$USER" "$HOME"
