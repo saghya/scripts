@@ -10,7 +10,7 @@ read -r STATE < /sys/class/net/"$INTERFACE"/operstate
 
 if [ "$STATE" = "up" ]; then
     case "$INTERFACE" in
-        *en*) printf " " ;;
+        *en*) printf "  " ;;
         *wl*) printf "  " ;;
     esac
 fi
@@ -21,8 +21,11 @@ case $BLOCK_BUTTON in
         Z=400
         X=$((X-Z))
         Y=29
-        networkmanager_dmenu -l 20 -x $X -y $Y -z $Z >/dev/null 2>&1 ;;
+        networkmanager_dmenu -l 20 -x $X -y $Y -z $Z >/dev/null 2>&1
+        ;;
     2)
-        dunstify -r 5555 -u 0 "$(nmcli -t -f name connection show --active | head -n 1)" ;;
+        dunstify -r 5555 -u 0 "Connected to: $(nmcli -t -f name connection show --active | head -n 1)"
+        pkill -RTMIN+5 dwmblocks
+        ;;
 esac
 
