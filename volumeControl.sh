@@ -18,7 +18,7 @@ esac
 [ $VOLUME -lt 0 ] && VOLUME=0
 pactl set-sink-volume @DEFAULT_SINK@ $VOLUME%
 
-kill -35 "$(pidof dwmblocks)"
+pkill -RTMIN+1 dwmblocks
 
 send_notification() {
     dunstify -r 5555 -t 1000 -h int:value:$VOLUME "Volume: $1" --icon=/usr/share/icons/Papirus-Dark/16x16/actions/"$2"
