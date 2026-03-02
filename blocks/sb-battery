@@ -1,37 +1,28 @@
 #!/bin/sh
 
-# pick first battery
-BATDIR="$(ls -d /sys/class/power_supply/BAT* | head -n1)"
-[ -n "$BATDIR" ] || exit 0
+BATFILE=/sys/class/power_supply/BAT0/capacity
+ACFILE=/sys/class/power_supply/AC/online
 
-read -r BAT < "$BATDIR/capacity"
+[ -r "$BATFILE" ] || exit 0
+read -r BAT < "$BATFILE"
 
-# pick first AC adapter (mains) if present
-ACONLINE=0
-ACDIR="$(grep -l '^Mains$' /sys/class/power_supply/*/type | sed 's#/type$##' | head -n1)"
-if [ -n "$ACDIR" ] && [ -r "$ACDIR/online" ]; then
-    read -r ACONLINE < "$ACDIR/online"
-fi
+AC=0
+[ -r "$ACFILE" ] && read -r AC < "$ACFILE"
 
-if [ "$ACONLINE" = 1 ]; then
+if [ "$AC" -eq 1 ]; then
     ICON=""
 else
-	if [ "$BAT" -lt 20 ]; then
-		ICON=""
-	elif [ "$BAT" -lt 40 ]; then
-		ICON=""
-	elif [ "$BAT" -lt 60 ]; then
-		ICON=""
-	elif [ "$BAT" -lt 80 ]; then
-        ICON=""
-	else
-		ICON=""
-	fi
+    if   [ "$BAT" -lt 20 ]; then ICON=""
+    elif [ "$BAT" -lt 40 ]; then ICON=""
+    elif [ "$BAT" -lt 60 ]; then ICON=""
+    elif [ "$BAT" -lt 80 ]; then ICON=""
+    else                         ICON=""
+    fi
 fi
 
 printf " %s %s " "$ICON" "$BAT%"
 
-case $BLOCK_BUTTON in
+case ${BLOCK_BUTTON:-} in
     2)
         dunstify -r 5555 -u 0 -t 1000 "Battery at $BAT%"
         pkill -RTMIN+4 dwmblocks
