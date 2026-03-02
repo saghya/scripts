@@ -1,28 +1,33 @@
 #!/bin/sh
 
-VOLUME=$(pamixer --get-volume)
+VOLUME=$(pamixer --get-volume-human)
 [ -z "$VOLUME" ] && exit
 
 case $BLOCK_BUTTON in
     1) pactl set-sink-mute @DEFAULT_SINK@ toggle ;;
-    2) dunstify -r 5555 -u 0 -t 1000 "Volume at $VOLUME%" ;;
+    2) dunstify -r 5555 -u 0 -t 1000 "Volume: $VOLUME" ;;
     3) pavucontrol & ;;
 esac
 
-if [ "$(pamixer --get-mute)" = true ]; then
+if [ "$VOLUME" = "muted" ]; then
     printf " " 
     exit
-elif [ "$VOLUME" = 0 ]; then
+fi
+
+VOLUME=${VOLUME%\%}
+
+if [ "$VOLUME" -gt 100 ]; then
+    pactl set-sink-volume @DEFAULT_SINK@ 100%
+    VOLUME=100
+fi
+
+if [ "$VOLUME" -eq 0 ]; then
     ICON=""
-elif [ "$VOLUME" -lt 33 ]; then
-	ICON=""
-elif [ "$VOLUME" -lt 66 ]; then
+elif [ "$VOLUME" -lt 50 ]; then
 	ICON=""
 else
 	ICON=""
 fi
 
-[ "$VOLUME" -gt 100 ] && pactl set-sink-volume @DEFAULT_SINK@ 100% && VOLUME=100
-
-printf "%s" "$ICON "
+printf " %s " "$ICON"
 
