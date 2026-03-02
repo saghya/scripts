@@ -1,23 +1,23 @@
 #!/bin/sh
 
-printf " %s  " "$COLOR"
+printf "   "
 
-case $BLOCK_BUTTON in
-    1)
-        eval "$(xdotool getmouselocation --shell)"
-        Z=200
-        X=$((X-Z))
-        Y=29
-        OPTIONS="Cancel\n Shutdown\n Reboot\n Sleep\n Hibernate\n Lock"
-        SELECTED=$(echo "$OPTIONS" | dmenu -l 6 -x $X -y $Y -z $Z)
+[ "$BLOCK_BUTTON" != "1" ] && exit 0
 
-        case $SELECTED in
-            " Shutdown") systemctl poweroff ;;
-            " Reboot") systemctl reboot ;;
-            " Sleep") systemctl suspend ;;
-            " Hibernate") systemctl hibernate ;;
-            " Lock") xset s activate ;;
-            *) exit ;;
-        esac ;;
+eval "$(xdotool getmouselocation --shell)"
+Z=200
+X=$((X-Z))
+Y=29
+
+OPTIONS="Cancel\n Shutdown\n Reboot\n Suspend\n Hibernate\n Lock"
+
+CHOICE=$(printf "%b" "$OPTIONS" | dmenu -l 6 -x "$X" -y "$Y" -z "$Z")
+
+case "$CHOICE" in
+    " Shutdown")   systemctl poweroff ;;
+    " Reboot")     systemctl reboot ;;
+    " Suspend")    systemctl suspend ;;
+    " Hibernate")  systemctl hibernate ;;
+    " Lock")       loginctl lock-session ;;
 esac
 
