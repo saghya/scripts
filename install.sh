@@ -24,10 +24,10 @@ packages() {
         man-pages polkit acpid pipewire pipewire-pulse pipewire-alsa pavucontrol pamixer wget
         udiskie alacritty noto-fonts noto-fonts-cjk noto-fonts-extra noto-fonts-emoji ttf-font-awesome
         ttf-jetbrains-mono ttf-ubuntu-font-family dunst feh dash zsh zsh-autosuggestions maim neovim
-        picom lxappearance gtk-engine-murrine gnome-themes-extra papirus-icon-theme kvantum qt6ct
-        ueberzugpp ranger pcmanfm zathura zathura-pdf-mupdf mpv eza inetutils ripgrep fd pyright bluez
-        bluez-utils python-pygments networkmanager dnsmasq cups libhandy system-config-printer hplip
-        xss-lock bash-language-server bear tree-sitter-cli ly unzip wireguard-tools"
+        picom lxappearance gtk-engine-murrine gnome-themes-extra papirus-icon-theme kvantum kvantum-qt5
+        qt6ct ueberzugpp ranger pcmanfm zathura zathura-pdf-mupdf mpv eza inetutils ripgrep fd pyright
+        bluez bluez-utils python-pygments networkmanager dnsmasq cups libhandy system-config-printer
+        hplip xss-lock bash-language-server bear tree-sitter-cli ly unzip wireguard-tools"
     sudo pacman --noconfirm -Syyu
     for PCKG in $PCKGS; do
         sudo pacman --needed --noconfirm -S "$PCKG" || error "Error installing $PCKG"
