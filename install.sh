@@ -24,7 +24,7 @@ packages() {
         man-pages polkit acpid pipewire pipewire-pulse pipewire-alsa pavucontrol pamixer wget
         udiskie alacritty noto-fonts noto-fonts-cjk noto-fonts-extra noto-fonts-emoji ttf-font-awesome
         ttf-jetbrains-mono ttf-ubuntu-font-family dunst feh dash zsh zsh-autosuggestions maim neovim
-        picom lxappearance gtk-engine-murrine gnome-themes-extra papirus-icon-theme kvantum kvantum-qt5
+        picom lxappearance gnome-themes-extra papirus-icon-theme kvantum kvantum-qt5 xorg-xset
         qt6ct ueberzugpp ranger pcmanfm zathura zathura-pdf-mupdf mpv eza inetutils ripgrep fd pyright
         bluez bluez-utils python-pygments networkmanager dnsmasq cups libhandy system-config-printer
         hplip xss-lock bash-language-server bear tree-sitter-cli ly unzip wireguard-tools"
@@ -44,7 +44,7 @@ packages() {
 
     AUR_PCKGS="google-chrome breeze-snow-cursor-theme htop-vim dashbinsh networkmanager-dmenu-git
         dmenu-bluetooth catppuccin-gtk-theme-mocha catppuccin-gtk-theme-latte kvantum-theme-catppuccin-git
-        zsh-fast-syntax-highlighting hplip-plugin xsecurelock-git xidlehook"
+        zsh-fast-syntax-highlighting hplip-plugin xidlehook"
     for PCKG in $AUR_PCKGS; do
         yay --needed --noconfirm -S "$PCKG" || error "Error installing $PCKG"
     done
