@@ -7,10 +7,15 @@ while getopts 'm:' FLAG; do
   esac
 done
 
-OPTIONS="Cancel\n Shutdown\n Reboot\n Sleep\n Hibernate\n Lock"
-SELECTED=$(echo "$OPTIONS" | dmenu -m "$M_FLAG" -l 6 -z 220)
+OPTIONS="Cancel
+ Shutdown
+ Reboot
+ Sleep
+ Hibernate
+ Lock"
+SELECTED=$(printf '%s\n' "$OPTIONS" | dmenu -m "$M_FLAG" -l 6 -z 220)
 
-case $SELECTED in
+case "$SELECTED" in
     " Shutdown") systemctl poweroff ;;
     " Reboot") systemctl reboot ;;
     " Sleep") systemctl suspend ;;
@@ -18,4 +23,3 @@ case $SELECTED in
     " Lock") xset s activate ;;
     *) exit ;;
 esac
-
