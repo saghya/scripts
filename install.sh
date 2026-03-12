@@ -247,6 +247,11 @@ finishing_touches() {
     # give the home directory to the user
     sudo chown -R "$USER" "$HOME"
 
+    # install dwmblocks helper
+    cd ~/.local/scripts/helpers/get-monitor-x &&
+    make
+    sudo make install
+
     # errors
     if [ -f ~/.install-errors.log ]; then
         printf "\033[0;31m\tERRORS:\n#######################\n"
