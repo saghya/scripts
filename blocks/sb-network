@@ -17,11 +17,14 @@ fi
 
 case $BLOCK_BUTTON in
     1)
-        eval "$(xdotool getmouselocation --shell)"
-        Z=400
-        X=$((X-Z))
         Y=29
-        networkmanager_dmenu -l 20 -x $X -y $Y -z $Z >/dev/null 2>&1
+        Z=400
+        read -r MONITOR X <<EOF
+$(get-monitor-x)
+EOF
+        X=$((X - Z))
+        [ "$X" -lt 0 ] && X=0
+        networkmanager_dmenu -m "$MONITOR" -x "$X" -y "$Y" -z "$Z" -l 20 >/dev/null 2>&1
         ;;
     2)
         dunstify -r 5555 -u 0 "Connected to: $(nmcli -t -f name connection show --active | head -n 1)"

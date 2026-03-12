@@ -4,14 +4,16 @@ printf "   "
 
 [ "$BLOCK_BUTTON" != "1" ] && exit 0
 
-eval "$(xdotool getmouselocation --shell)"
-Z=200
-X=$((X-Z))
 Y=29
-
+Z=200
 OPTIONS="Cancel\n Shutdown\n Reboot\n Suspend\n Hibernate\n Lock"
+read -r MONITOR X <<EOF
+$(get-monitor-x)
+EOF
+X=$((X - Z))
+[ "$X" -lt 0 ] && X=0
 
-CHOICE=$(printf "%b" "$OPTIONS" | dmenu -l 6 -x "$X" -y "$Y" -z "$Z")
+CHOICE=$(printf "%b" "$OPTIONS" | dmenu -m "$MONITOR" -x "$X" -y "$Y" -z "$Z" -l 6)
 
 case "$CHOICE" in
     " Shutdown")   systemctl poweroff ;;

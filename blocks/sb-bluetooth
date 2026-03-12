@@ -6,11 +6,14 @@ fi
 
 case $BLOCK_BUTTON in
     1)
-        eval "$(xdotool getmouselocation --shell)"
-        Z=250
-        X=$((X-Z))
         Y=29
-        dmenu-bluetooth -x $X -y $Y -z $Z >/dev/null
+        Z=250
+        read -r MONITOR X <<EOF
+$(get-monitor-x)
+EOF
+        X=$((X - Z))
+        [ "$X" -lt 0 ] && X=0
+        dmenu-bluetooth -m "$MONITOR" -x "$X" -y "$Y" -z "$Z" >/dev/null
         ;;
     2)
         info="$(bluetoothctl info 2>/dev/null)"
