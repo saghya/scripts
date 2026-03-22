@@ -20,7 +20,8 @@ else
     fi
 fi
 
-printf " %s %s " "$ICON" "$BAT%"
+#printf " %s %s " "$ICON" "$BAT%"
+printf " %s " "$ICON"
 
 case ${BLOCK_BUTTON:-} in
     2)

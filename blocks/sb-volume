@@ -4,13 +4,13 @@ VOLUME=$(pamixer --get-volume-human)
 [ -z "$VOLUME" ] && exit
 
 case $BLOCK_BUTTON in
-    1) pactl set-sink-mute @DEFAULT_SINK@ toggle ;;
+    1) $TERMINAL --class wiremix -e wiremix & ;;
     2) dunstify -r 5555 -u 0 -t 1000 "Volume: $VOLUME" ;;
-    3) pavucontrol & ;;
+    3) pactl set-sink-mute @DEFAULT_SINK@ toggle ;;
 esac
 
 if [ "$VOLUME" = "muted" ]; then
-    printf " " 
+    printf "  "
     exit
 fi
 

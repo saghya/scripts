@@ -1,7 +1,8 @@
 #!/bin/sh
 
 if bluetoothctl show | grep -q "Powered: yes"; then
-    printf "  "
+    #printf "  "
+    printf " "
 fi
 
 case $BLOCK_BUTTON in
