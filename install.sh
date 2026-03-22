@@ -22,7 +22,7 @@ packages() {
     PCKGS="base-devel clang gdb python ntfs-3g openssh xorg-server xorg-xwininfo xorg-xinit
         xorg-xprop xorg-xrandr xorg-xdpyinfo xclip xdotool xbindkeys xdg-utils xterm man-db
         man-pages polkit acpid pipewire pipewire-pulse pipewire-alsa pavucontrol pamixer wget
-        udiskie alacritty noto-fonts noto-fonts-cjk noto-fonts-extra noto-fonts-emoji ttf-font-awesome
+        udiskie alacritty noto-fonts noto-fonts-cjk noto-fonts-extra noto-fonts-emoji ttf-jetbrains-mono-nerd
         ttf-jetbrains-mono ttf-ubuntu-font-family dunst feh dash zsh zsh-autosuggestions maim neovim
         picom lxappearance gnome-themes-extra papirus-icon-theme kvantum kvantum-qt5 xorg-xset
         qt6ct ueberzugpp ranger pcmanfm zathura zathura-pdf-mupdf mpv eza inetutils ripgrep fd pyright
@@ -75,7 +75,7 @@ git_packages() {
                "#ifndef CONFIG_H"                                  \
                "#define CONFIG_H"                                  \
                ""                                                  \
-               "#define DELIMITER              \"|\""              \
+               "#define DELIMITER              \"\""               \
                "#define MAX_BLOCK_OUTPUT_LENGTH 50"                \
                "#define CLICKABLE_BLOCKS         1"                \
                "#define LEADING_DELIMITER        0"                \
@@ -127,6 +127,26 @@ laptop() {
     sudo systemctl enable NetworkManager-dispatcher.service
     sudo systemctl mask systemd-rfkill.service
     sudo systemctl mask systemd-rfkill.socket
+
+    # set hibernation
+    sudo grep -q '^[[]Login[]]' /etc/systemd/logind.conf ||
+        printf "%s\n" "" "[Login]" | sudo tee -a /etc/systemd/logind.conf >/dev/null
+    sudo grep -q '^[#[:space:]]*HandleLidSwitch=' /etc/systemd/logind.conf &&
+        sudo sed -i 's|^[#[:space:]]*HandleLidSwitch=.*|HandleLidSwitch=suspend-then-hibernate|' /etc/systemd/logind.conf ||
+        printf "%s\n" "HandleLidSwitch=suspend-then-hibernate" | sudo tee -a /etc/systemd/logind.conf >/dev/null
+    sudo grep -q '^[#[:space:]]*HandleLidSwitchDocked=' /etc/systemd/logind.conf &&
+        sudo sed -i 's|^[#[:space:]]*HandleLidSwitchDocked=.*|HandleLidSwitchDocked=ignore|' /etc/systemd/logind.conf ||
+        printf "%s\n" "HandleLidSwitchDocked=ignore" | sudo tee -a /etc/systemd/logind.conf >/dev/null
+    sudo grep -q '^[#[:space:]]*HandleSuspendKey=' /etc/systemd/logind.conf &&
+        sudo sed -i 's|^[#[:space:]]*HandleSuspendKey=.*|HandleSuspendKey=suspend-then-hibernate|' /etc/systemd/logind.conf ||
+        printf "%s\n" "HandleSuspendKey=suspend-then-hibernate" | sudo tee -a /etc/systemd/logind.conf >/dev/null
+
+    # Set hibernation timeout
+    sudo grep -q '^[[]Sleep[]]' /etc/systemd/sleep.conf ||
+        printf "%s\n" "" "[Sleep]" | sudo tee -a /etc/systemd/sleep.conf >/dev/null
+    sudo grep -q '^[#[:space:]]*HibernateDelaySec=' /etc/systemd/sleep.conf &&
+        sudo sed -i 's|^[#[:space:]]*HibernateDelaySec=.*|HibernateDelaySec=15min|' /etc/systemd/sleep.conf ||
+        printf "%s\n" "HibernateDelaySec=15min" | sudo tee -a /etc/systemd/sleep.conf >/dev/null
 
     # touchpad
     sudo usermod -a -G input "$USER"
