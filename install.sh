@@ -1,8 +1,6 @@
 #!/bin/sh
 
 error() { printf "%s\n" "$1" >> ~/.install-errors.log; }
-JOBS=$(nproc)
-INSTALL_START_TS=0
 
 ## SETUP ##
 setup() {
@@ -10,7 +8,7 @@ setup() {
 
     # Make pacman colorful, concurrent downloads and Pacman eye-candy.
     sudo grep -q "ILoveCandy" /etc/pacman.conf || sudo sed -i "/#VerbosePkgLists/a ILoveCandy" /etc/pacman.conf
-    sudo sed -i -E 's/^#?ParallelDownloads =.*/ParallelDownloads = 15/;s/^#Color$/Color/' /etc/pacman.conf
+    sudo sed -i "s/^#ParallelDownloads = 8$/ParallelDownloads = 5/;s/^#Color$/Color/" /etc/pacman.conf
 
     # Use all cores for compilation.
     sudo sed -i "s/-j2/-j$(nproc)/;s/^#MAKEFLAGS/MAKEFLAGS/" /etc/makepkg.conf
@@ -30,11 +28,14 @@ packages() {
         qt6ct ueberzugpp ranger pcmanfm zathura zathura-pdf-mupdf mpv eza inetutils ripgrep fd pyright
         bluez bluez-utils python-pygments networkmanager dnsmasq cups libhandy system-config-printer
         hplip xss-lock bash-language-server bear tree-sitter-cli ly unzip wireguard-tools wiremix firefox"
-    sudo pacman --needed --noconfirm -Syu $PCKGS || error "Error installing pacman packages"
+    sudo pacman --noconfirm -Syyu
+    for PCKG in $PCKGS; do
+        sudo pacman --needed --noconfirm -S "$PCKG" || error "Error installing $PCKG"
+    done
 
     ## AUR PACKAGES ##
     # yay
-    if git clone --depth 1 https://aur.archlinux.org/yay-bin.git ~/.local/src/yay-bin; then
+    if git clone https://aur.archlinux.org/yay-bin.git ~/.local/src/yay-bin; then
         cd ~/.local/src/yay-bin &&
         makepkg --noconfirm -si
     else
@@ -44,7 +45,9 @@ packages() {
     AUR_PCKGS="breeze-snow-cursor-theme htop-vim dashbinsh networkmanager-dmenu-git
         dmenu-bluetooth catppuccin-gtk-theme-mocha catppuccin-gtk-theme-latte kvantum-theme-catppuccin-git
         zsh-fast-syntax-highlighting hplip-plugin xidlehook"
-    yay --sudoloop --needed --noconfirm -S $AUR_PCKGS || error "Error installing AUR packages"
+    for PCKG in $AUR_PCKGS; do
+        yay --needed --noconfirm -S "$PCKG" || error "Error installing $PCKG"
+    done
 }
 
 ## GIT PACKAGES ##
@@ -59,7 +62,7 @@ git_packages() {
     # dwm
     if git clone https://github.com/saghya/dwm ~/.local/src/dwm; then
         cd ~/.local/src/dwm &&
-        make -j"$JOBS"
+        make
         sudo make install
     else
         error "Error installing dwm"
@@ -87,7 +90,7 @@ git_packages() {
                "	X(\"\", \"sb-powermenu_icon\",   10,    8) \\" \
                ""                                                  \
                "#endif // CONFIG_H" > config.h
-        make -j"$JOBS"
+        make
         sudo make install
     else
         error "Error installing dwmblocks-async"
@@ -96,7 +99,7 @@ git_packages() {
     # dmenu
     if git clone https://github.com/saghya/dmenu ~/.local/src/dmenu; then
         cd ~/.local/src/dmenu &&
-        make -j"$JOBS"
+        make
         sudo make install
     else
         error "Error installing dmenu"
@@ -105,7 +108,7 @@ git_packages() {
     # afetch
     if git clone https://github.com/Saghya/afetch ~/.local/src/afetch; then
         cd ~/.local/src/afetch &&
-        make -j"$JOBS"
+        make
         sudo make install
     else
         error "Error installing afetch"
@@ -115,33 +118,15 @@ git_packages() {
 ## LAPTOP ##
 laptop() {
     L_PCKGS="brightnessctl tlp tlp-rdw tlpui batsignal libinput-gestures"
-    yay --sudoloop --needed --noconfirm -S $L_PCKGS || error "Error installing laptop packages"
+    for PCKG in $L_PCKGS; do
+        sudo yay --needed --noconfirm -S "$PCKG" || error "Error installing $PCKG"
+    done
 
     # tlp
     sudo systemctl enable tlp.service
     sudo systemctl enable NetworkManager-dispatcher.service
     sudo systemctl mask systemd-rfkill.service
     sudo systemctl mask systemd-rfkill.socket
-
-    # set hibernation
-    sudo grep -q '^[[]Login[]]' /etc/systemd/logind.conf ||
-        printf "%s\n" "" "[Login]" | sudo tee -a /etc/systemd/logind.conf >/dev/null
-    sudo grep -q '^[#[:space:]]*HandleLidSwitch=' /etc/systemd/logind.conf &&
-        sudo sed -i 's|^[#[:space:]]*HandleLidSwitch=.*|HandleLidSwitch=suspend-then-hibernate|' /etc/systemd/logind.conf ||
-        printf "%s\n" "HandleLidSwitch=suspend-then-hibernate" | sudo tee -a /etc/systemd/logind.conf >/dev/null
-    sudo grep -q '^[#[:space:]]*HandleLidSwitchDocked=' /etc/systemd/logind.conf &&
-        sudo sed -i 's|^[#[:space:]]*HandleLidSwitchDocked=.*|HandleLidSwitchDocked=ignore|' /etc/systemd/logind.conf ||
-        printf "%s\n" "HandleLidSwitchDocked=ignore" | sudo tee -a /etc/systemd/logind.conf >/dev/null
-    sudo grep -q '^[#[:space:]]*HandleSuspendKey=' /etc/systemd/logind.conf &&
-        sudo sed -i 's|^[#[:space:]]*HandleSuspendKey=.*|HandleSuspendKey=suspend-then-hibernate|' /etc/systemd/logind.conf ||
-        printf "%s\n" "HandleSuspendKey=suspend-then-hibernate" | sudo tee -a /etc/systemd/logind.conf >/dev/null
-
-    # Set hibernation timeout
-    sudo grep -q '^[[]Sleep[]]' /etc/systemd/sleep.conf ||
-        printf "%s\n" "" "[Sleep]" | sudo tee -a /etc/systemd/sleep.conf >/dev/null
-    sudo grep -q '^[#[:space:]]*HibernateDelaySec=' /etc/systemd/sleep.conf &&
-        sudo sed -i 's|^[#[:space:]]*HibernateDelaySec=.*|HibernateDelaySec=15min|' /etc/systemd/sleep.conf ||
-        printf "%s\n" "HibernateDelaySec=15min" | sudo tee -a /etc/systemd/sleep.conf >/dev/null
 
     # touchpad
     sudo usermod -a -G input "$USER"
@@ -259,25 +244,25 @@ finishing_touches() {
     # regenerate grub
     sudo grub-mkconfig -o /boot/grub/grub.cfg
 
+    # give the home directory to the user
+    sudo chown -R "$USER" "$HOME"
+
     # install dwmblocks helper
     cd ~/.local/scripts/helpers/get-monitor-x &&
     make
     sudo make install
 
-    # give the home directory to the user
-    sudo chown -R "$USER" "$HOME"
+    # errors
+    if [ -f ~/.install-errors.log ]; then
+        printf "\033[0;31m\tERRORS:\n#######################\n"
+        cat ~/.install-errors.log
+        printf "#######################\033[0m\n"
+    else
+        sudo reboot
+    fi
 }
 
 main() {
-    sudo -v || exit 1
-    while true; do
-        sudo -n true
-        sleep 60
-        kill -0 "$$" || exit
-    done 2>/dev/null &
-
-    INSTALL_START_TS=$(date +%s)
-
     setup
     packages
     git_packages
@@ -290,23 +275,6 @@ main() {
 
     services
     finishing_touches
-
-
-    if [ -f ~/.install-errors.log ]; then
-        printf "\033[0;31m\tERRORS:\n#######################\n"
-        cat ~/.install-errors.log
-        printf "#######################\033[0m\n"
-    else
-        INSTALL_END_TS=$(date +%s)
-        INSTALL_ELAPSED=$((INSTALL_END_TS - INSTALL_START_TS))
-        INSTALL_HOURS=$((INSTALL_ELAPSED / 3600))
-        INSTALL_MINS=$(((INSTALL_ELAPSED % 3600) / 60))
-        INSTALL_SECS=$((INSTALL_ELAPSED % 60))
-        printf "\033[0;32mInstall completed in %02d:%02d:%02d\033[0m\n" "$INSTALL_HOURS" "$INSTALL_MINS" "$INSTALL_SECS"
-        printf "Press Enter to reboot..."
-        read -r _
-        sudo reboot
-    fi
 }
 
 main
