@@ -46,7 +46,7 @@ packages() {
         dmenu-bluetooth catppuccin-gtk-theme-mocha catppuccin-gtk-theme-latte kvantum-theme-catppuccin-git
         zsh-fast-syntax-highlighting hplip-plugin xidlehook"
     for PCKG in $AUR_PCKGS; do
-        yay --needed --noconfirm -S "$PCKG" || error "Error installing $PCKG"
+        yay --sudoloop --needed --noconfirm -S "$PCKG" || error "Error installing $PCKG"
     done
 }
 
@@ -119,7 +119,7 @@ git_packages() {
 laptop() {
     L_PCKGS="brightnessctl tlp tlp-rdw tlpui batsignal libinput-gestures"
     for PCKG in $L_PCKGS; do
-        sudo yay --needed --noconfirm -S "$PCKG" || error "Error installing $PCKG"
+        sudo yay --sudoloop --needed --noconfirm -S "$PCKG" || error "Error installing $PCKG"
     done
 
     # tlp
