@@ -29,7 +29,7 @@ packages() {
         picom lxappearance gnome-themes-extra papirus-icon-theme kvantum kvantum-qt5 xorg-xset
         qt6ct ueberzugpp ranger pcmanfm zathura zathura-pdf-mupdf mpv eza inetutils ripgrep fd pyright
         bluez bluez-utils python-pygments networkmanager dnsmasq cups libhandy system-config-printer
-        hplip xss-lock bash-language-server bear tree-sitter-cli ly unzip wireguard-tools wiremix"
+        hplip xss-lock bash-language-server bear tree-sitter-cli ly unzip wireguard-tools wiremix firefox"
     sudo pacman --needed --noconfirm -Syu $PCKGS || error "Error installing pacman packages"
 
     ## AUR PACKAGES ##
@@ -41,7 +41,7 @@ packages() {
         error "Error installing yay"
     fi
 
-    AUR_PCKGS="google-chrome breeze-snow-cursor-theme htop-vim dashbinsh networkmanager-dmenu-git
+    AUR_PCKGS="breeze-snow-cursor-theme htop-vim dashbinsh networkmanager-dmenu-git
         dmenu-bluetooth catppuccin-gtk-theme-mocha catppuccin-gtk-theme-latte kvantum-theme-catppuccin-git
         zsh-fast-syntax-highlighting hplip-plugin xidlehook"
     yay --sudoloop --needed --noconfirm -S $AUR_PCKGS || error "Error installing AUR packages"
