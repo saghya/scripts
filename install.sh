@@ -283,6 +283,13 @@ finishing_touches() {
 }
 
 main() {
+    sudo -v ||
+    while true; do
+        sudo -n true
+        sleep 60
+        kill -0 "$$"
+    done 2>/dev/null &
+
     setup
     packages
     git_packages
