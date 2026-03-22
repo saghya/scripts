@@ -36,8 +36,9 @@ packages() {
     ## AUR PACKAGES ##
     # yay
     if git clone https://aur.archlinux.org/yay-bin.git ~/.local/src/yay-bin; then
-        cd ~/.local/src/yay-bin &&
-        makepkg --noconfirm -si
+        cd ~/.local/src/yay-bin || error "Error entering yay dir"
+        makepkg --noconfirm -sf || error "Error building yay"
+        sudo pacman --noconfirm -U ./*.pkg.tar.zst || error "Error installing yay"
     else
         error "Error installing yay"
     fi
