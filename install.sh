@@ -283,12 +283,14 @@ finishing_touches() {
 }
 
 main() {
-    sudo -v ||
+    sudo -v || exit 1
     while true; do
-        sudo -n true
+        sudo -n true || exit
         sleep 60
-        kill -0 "$$"
+        kill -0 "$$" || exit
     done 2>/dev/null &
+    SUDO_KEEPALIVE_PID=$!
+    trap 'kill "$SUDO_KEEPALIVE_PID" 2>/dev/null' EXIT
 
     setup
     packages
