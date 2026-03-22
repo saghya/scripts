@@ -119,7 +119,7 @@ git_packages() {
 laptop() {
     L_PCKGS="brightnessctl tlp tlp-rdw tlpui batsignal libinput-gestures"
     for PCKG in $L_PCKGS; do
-        sudo yay --sudoloop --needed --noconfirm -S "$PCKG" || error "Error installing $PCKG"
+        yay --sudoloop --needed --noconfirm -S "$PCKG" || error "Error installing $PCKG"
     done
 
     # tlp
