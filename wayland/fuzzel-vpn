@@ -1,0 +1,59 @@
+#!/bin/sh
+#
+# ------------------------------------------------------------
+# WireGuard dmenu controller (wg-quick via systemd)
+# ------------------------------------------------------------
+#
+# REQUIREMENTS:
+#   wireguard-tools, systemd, dmenu, notify-send
+#
+# 1) WireGuard config
+#   Place your config at:
+#       /etc/wireguard/<vpn-name>.conf
+#
+#   Set permissions:
+#       sudo chmod 600 /etc/wireguard/<vpn-name>.conf
+#
+# 2) Passwordless control (sudoers, required for dmenu)
+#       sudo visudo -f /etc/sudoers.d/wireguard
+#
+#   Add:
+#       <username> ALL=(ALL) NOPASSWD: /usr/bin/systemctl start wg-quick@<vpn-name>
+#       <username> ALL=(ALL) NOPASSWD: /usr/bin/systemctl stop wg-quick@<vpn-name>
+#
+#   Then:
+#       sudo chmod 0440 /etc/sudoers.d/wireguard
+#
+#   Verify with:
+#       sudo -l
+#
+# 3) Set in this script:
+#       VPN_NAME="<vpn-name>"
+
+# ------------------------------------------------------------
+
+VPN_NAME="home"
+
+if [ -z "$VPN_NAME" ]; then
+    notify-send -t 5000 "VPN Error" "VPN_NAME is not set.\nSet VPN_NAME variable in the script."
+    exit 1
+fi
+
+CHOICE=$(printf "Connect\nDisconnect\nStatus" \
+  | fuzzel --dmenu --minimal-lines -w 12)
+
+case "$CHOICE" in
+  "Connect")
+    sudo systemctl start wg-quick@$VPN_NAME &&
+    notify-send -t 1200 "VPN" "Connected ($VPN_NAME)"
+    ;;
+  "Disconnect")
+    sudo systemctl stop wg-quick@$VPN_NAME &&
+    notify-send -t 1200 "VPN" "Disconnected ($VPN_NAME)"
+    ;;
+  "Status")
+    STATUS="$(systemctl is-active wg-quick@$VPN_NAME)"
+    notify-send -t 1200 "VPN Status" "$STATUS"
+    ;;
+esac
+

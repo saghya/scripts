@@ -1,0 +1,27 @@
+#!/bin/sh
+#
+# Write/remove a task to do later.
+#
+# Select an existing entry to remove it from the file, or type a new entry to
+# add it.
+#
+
+FILE=$HOME/.todo
+touch "$FILE"
+
+CMD=$(fuzzel --dmenu --minimal-lines "$@" < "$FILE")
+while [ -n "$CMD" ]; do
+ 	if grep -q "^$CMD\$" "$FILE"; then
+		grep -v "^$CMD\$" "$FILE" > "$FILE.$$"
+		mv "$FILE.$$" "$FILE"
+        HEIGHT=$(( HEIGHT - 1 ))
+ 	else
+		echo "$CMD" >> "$FILE"
+		HEIGHT=$(( HEIGHT + 1 ))
+ 	fi
+
+	CMD=$(fuzzel --dmenu --minimal-lines "$@" < "$FILE")
+done
+
+exit 0
+

@@ -20,13 +20,6 @@ else
     fi
 fi
 
-#printf " %s %s " "$ICON" "$BAT%"
-printf " %s " "$ICON"
-
-case ${BLOCK_BUTTON:-} in
-    2)
-        dunstify -r 5555 -u 0 -t 1000 "Battery at $BAT%"
-        pkill -RTMIN+4 dwmblocks
-        ;;
-esac
+printf " %s %s" "$ICON" "$BAT%"
+#printf " %s " "$ICON"
 

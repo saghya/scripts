@@ -1,0 +1,22 @@
+#!/bin/sh
+
+VOLUME=$(pamixer --get-volume-human)
+[ -z "$VOLUME" ] && exit
+
+if [ "$VOLUME" = "muted" ]; then
+    printf "  "
+    exit
+fi
+
+VOLUME=${VOLUME%\%}
+
+if [ "$VOLUME" -eq 0 ]; then
+    ICON=""
+elif [ "$VOLUME" -lt 50 ]; then
+	ICON=""
+else
+	ICON=""
+fi
+
+printf " %s " "$ICON"
+

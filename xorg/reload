@@ -1,0 +1,7 @@
+#!/bin/sh
+
+xrdb -merge "$HOME/.config/X11/Xresources" &
+setxkbmap -layout hu -option caps:escape &
+xbindkeys -f "$HOME/.config/X11/xbindkeysrc" &
+xset r rate 250 30 s 300 20 &
+

@@ -39,7 +39,7 @@ while getopts 'm:' FLAG; do
   esac
 done
 
-VPN_NAME=""
+VPN_NAME="home"
 
 if [ -z "$VPN_NAME" ]; then
     notify-send -t 5000 "VPN Error" "VPN_NAME is not set.\nSet VPN_NAME variable in the script."

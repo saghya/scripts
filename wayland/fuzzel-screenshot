@@ -1,0 +1,11 @@
+#!/bin/sh
+
+case $(printf "Select area\\nCurrent window\\nFull screen" | fuzzel --dmenu --minimal-lines) in
+    "Select area")
+        hyprshot -m region -o /tmp ;;
+    "Current window")
+        hyprshot -m window -o /tmp ;;
+    "Full screen")
+        hyprshot -m output -o /tmp ;;
+esac
+

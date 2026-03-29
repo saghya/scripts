@@ -1,0 +1,4 @@
+#!/bin/sh
+
+exec slstatus -s | dwl -s "swaybg -i ~/Pictures/Wallpapers/21.jpg & dunst & hypridle"
+

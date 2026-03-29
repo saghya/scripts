@@ -1,0 +1,19 @@
+#!/bin/sh
+
+OPTIONS="Cancel
+ Shutdown
+ Reboot
+ Sleep
+ Hibernate
+ Lock"
+SELECTED=$(printf '%s\n' "$OPTIONS" | fuzzel --dmenu --minimal-lines -w 15)
+
+case "$SELECTED" in
+    " Shutdown") systemctl poweroff ;;
+    " Reboot") systemctl reboot ;;
+    " Sleep") systemctl suspend ;;
+    " Hibernate") systemctl hibernate ;;
+    " Lock") hyprlock ;;
+    *) exit ;;
+esac
+

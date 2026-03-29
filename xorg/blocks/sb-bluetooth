@@ -3,6 +3,8 @@
 if bluetoothctl show | grep -q "Powered: yes"; then
     #printf "  "
     printf " "
+else
+    printf " "
 fi
 
 case $BLOCK_BUTTON in
