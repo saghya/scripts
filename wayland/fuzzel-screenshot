@@ -1,11 +1,11 @@
 #!/bin/sh
 
-case $(printf "Select area\\nCurrent window\\nFull screen" | fuzzel --dmenu --minimal-lines) in
+case $(printf "Select area\\nFull screen" | fuzzel --dmenu --minimal-lines -w 15) in
     "Select area")
-        hyprshot -m region -o /tmp ;;
-    "Current window")
-        hyprshot -m window -o /tmp ;;
+        (grim -g "$(slurp)" - | tee /tmp/pic-selected-"$(date '+%y%m%d-%H%M-%S').png" | wl-copy --type image/png) &&
+        notify-send -t 1000 "Screenshot saved to /tmp" ;;
     "Full screen")
-        hyprshot -m output -o /tmp ;;
+        (grim - | tee /tmp/pic-full-"$(date '+%y%m%d-%H%M-%S').png" | wl-copy --type image/png) &&
+        notify-send -t 1000 "Screenshot saved to /tmp" ;;
 esac
 
