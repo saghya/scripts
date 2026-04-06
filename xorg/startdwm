@@ -7,6 +7,13 @@ if [ -d /etc/X11/xinit/xinitrc.d ] ; then
     unset f
 fi
 
+export XSECURELOCK_BACKGROUND_COLOR="#171727"
+export XSECURELOCK_AUTH_BACKGROUND_COLOR="#7287FD"
+export XSECURELOCK_AUTH_FOREGROUND_COLOR="#0E0E1E"
+export XSECURELOCK_PASSWORD_PROMPT="asterisks"
+export XSECURELOCK_SHOW_KEYBOARD_LAYOUT=0
+export XSECURELOCK_WAIT_TIME_MS=20000
+
 xrdb -merge "$HOME/.config/X11/Xresources" &
 setxkbmap -layout hu -option caps:escape &
 xbindkeys -f "$HOME/.config/X11/xbindkeysrc" &
