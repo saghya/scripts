@@ -10,7 +10,7 @@ common_packages="base-devel clang gdb python ntfs-3g openssh xdg-utils man-db ma
     kvantum-qt5 qt6ct ueberzugpp ranger pcmanfm zathura zathura-pdf-mupdf mpv eza
     inetutils ripgrep fd pyright bluez bluez-utils python-pygments networkmanager dnsmasq
     cups libhandy system-config-printer hplip bash-language-server bear tree-sitter-cli ly
-    unzip wireguard-tools wiremix firefox"
+    unzip wireguard-tools wiremix firefox fzf"
 
 xorg_packages="xorg-server xorg-xwininfo xorg-xinit xorg-xprop xorg-xrandr xorg-xdpyinfo
     xclip xdotool xbindkeys xterm feh maim picom xorg-xset xss-lock"
